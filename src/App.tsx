@@ -130,7 +130,7 @@ const usePagination: usePaginateType = ({
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [docs],
+    [docs,currentPage,totals],
   )
 }
 
