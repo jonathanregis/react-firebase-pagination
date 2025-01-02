@@ -96,8 +96,8 @@ const usePagination: usePaginateType = ({
   const getLastEle = (array: any[]) => array[array.length - 1]
 
   const getNext = () => {
-    setCurrentPage(c => c+1);
-    if (lastSnap.length < totals.totalPages) {
+    if (currentPage < totals.totalPages) {
+      setCurrentPage(c => c+1);
       let q = addQuery(mainQuery, startAfter, getLastEle(lastSnap))
       q = addQuery(q, limit, pageSize)
       setQuery(q)
@@ -105,8 +105,8 @@ const usePagination: usePaginateType = ({
   }
 
   const getPrevious = () => {
-    setCurrentPage(c => c-1);
-    if (pageByPage && lastSnap.length > 1) {
+    if (pageByPage && currentPage > 1) {
+      setCurrentPage(c => c-1);
       const newArray = lastSnap.slice(0, -2)
       setLastSnap(newArray)
       let q = addQuery(mainQuery, startAfter, getLastEle(newArray))
@@ -121,8 +121,8 @@ const usePagination: usePaginateType = ({
       loading,
       getNext,
       getPrevious,
-      hasNext: lastSnap.length < totals.totalPages,
-      hasPrevious: pageByPage ? 1 < lastSnap.length : false,
+      hasNext: currentPage < totals.totalPages,
+      hasPrevious: pageByPage ? currentPage > 1 : false,
       data: {
         docs,
         ...totals,
