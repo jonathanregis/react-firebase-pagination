@@ -58,7 +58,6 @@ const usePagination: usePaginateType = ({
 
   const onRes = (res: QuerySnapshot<DocumentData>) => {
     if (res.docs.length) {
-      setCurrentPage(1);
       setLastSnap((e) => [...e, res.docs[pageSize - 1]])
       setDocs((e) => (pageByPage ? res.docs : [...e, ...res.docs]))
     }
@@ -76,6 +75,7 @@ const usePagination: usePaginateType = ({
       const unsubscribe = onSnapshot(query, onRes, onErr)
       return unsubscribe
     } else {
+      setCurrentPage(1)
       getDocs(query).then(onRes).catch(onErr)
       return () => null
     }
