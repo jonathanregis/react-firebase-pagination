@@ -82,6 +82,7 @@ const usePagination: usePaginateType = ({
   }, [query])
 
   useEffect(() => {
+    console.log("changed main query")
     setCurrentPage(1);
   },[mainQuery])
 
