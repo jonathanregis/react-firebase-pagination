@@ -54,9 +54,11 @@ const usePagination: usePaginateType = ({
     totalDocs: 0,
     totalPages: 0,
   })
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const onRes = (res: QuerySnapshot<DocumentData>) => {
     if (res.docs.length) {
+      setCurrentPage(1);
       setLastSnap((e) => [...e, res.docs[pageSize - 1]])
       setDocs((e) => (pageByPage ? res.docs : [...e, ...res.docs]))
     }
@@ -94,6 +96,7 @@ const usePagination: usePaginateType = ({
   const getLastEle = (array: any[]) => array[array.length - 1]
 
   const getNext = () => {
+    setCurrentPage(c => c+1);
     if (lastSnap.length < totals.totalPages) {
       let q = addQuery(mainQuery, startAfter, getLastEle(lastSnap))
       q = addQuery(q, limit, pageSize)
@@ -102,6 +105,7 @@ const usePagination: usePaginateType = ({
   }
 
   const getPrevious = () => {
+    setCurrentPage(c => c-1);
     if (pageByPage && lastSnap.length > 1) {
       const newArray = lastSnap.slice(0, -2)
       setLastSnap(newArray)
@@ -122,7 +126,7 @@ const usePagination: usePaginateType = ({
       data: {
         docs,
         ...totals,
-        currentPage: lastSnap.length,
+        currentPage,
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
