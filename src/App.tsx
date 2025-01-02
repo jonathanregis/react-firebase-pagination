@@ -75,12 +75,15 @@ const usePagination: usePaginateType = ({
       const unsubscribe = onSnapshot(query, onRes, onErr)
       return unsubscribe
     } else {
-      setCurrentPage(1)
       getDocs(query).then(onRes).catch(onErr)
       return () => null
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
+
+  useEffect(() => {
+    setCurrentPage(1);
+  },[mainQuery])
 
   useEffect(() => {
     setLoading(true)
